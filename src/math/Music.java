@@ -36,4 +36,19 @@ public class Music {
         }
     }
 
+    public static void winMusic() {
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(new URL("file", "localhost","sound/win.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

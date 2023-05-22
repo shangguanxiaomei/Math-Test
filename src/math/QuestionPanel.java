@@ -307,13 +307,15 @@ public class QuestionPanel extends JPanel {
             if (event.getSource() == answer4 && rightAnswer == 4)isCorrect = true;
             informationPanel.setMark(isCorrect);
             if (isCorrect){
-                Music.rightMusic();
-                newQuestion();
                 score++;
+                if (qType == QuestionType.ADDITION && score == ADD_GOAL
+                || qType == QuestionType.MULTIPLICATION && score == MULTIPLE_GOAL)Music.winMusic();
+                else Music.rightMusic();
+                newQuestion();
             }
             else {
-                Music.wrongMusic();
                 score = score - scorePenalty;
+                Music.wrongMusic();
             }
             if (score < 0) score = 0;
             informationPanel.setScore(String.valueOf(score));
