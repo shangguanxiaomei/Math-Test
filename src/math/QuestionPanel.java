@@ -310,6 +310,7 @@ public class QuestionPanel extends JPanel {
         set.remove(a3);
         list = new ArrayList(set);
         Fraction a4 = list.get(0);
+        sum = simplify(sum);
         if (sum.equals(a1))rightAnswer = 1;
         if (sum.equals(a2))rightAnswer = 2;
         if (sum.equals(a3))rightAnswer = 3;
