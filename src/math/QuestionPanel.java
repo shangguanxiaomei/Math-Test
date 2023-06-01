@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.*;
 import static math.CST.*;
+import static math.Fraction.*;
 
 public class QuestionPanel extends JPanel {
 
@@ -117,6 +118,9 @@ public class QuestionPanel extends JPanel {
         if (qType == QuestionType.MULTIPLICATION){
             if (random.nextBoolean())multiple();
             else division();
+        }
+        if (qType == QuestionType.FRACTION){
+            fractionAdd();
         }
     }
 
@@ -273,6 +277,52 @@ public class QuestionPanel extends JPanel {
         answer4.setText(String.valueOf(a4));
     }
 
+    private void fractionAdd (){
+        scorePenalty = FRACTION_PENALTY;
+        int limit = FRACTION_LIMIT;
+        boolean p = PROPER_FRACTION;
+        Fraction num1 =  fractionGenerate(limit, p);
+        Fraction num2 =  fractionGenerate(limit, p);
+        Fraction sum = fAdd(num1, num2);
+        while (sum.d > limit
+                || (sum.n > sum.d && p)){
+            num1 =  fractionGenerate(limit, p);
+            num2 =  fractionGenerate(limit, p);
+            sum = fAdd(num1, num2);
+        }
+        HashSet<Fraction> set=new HashSet();
+        if (random.nextBoolean())set.add(sum);
+        set.add(simplify(sum));
+        while (set.size() < 4){
+            int n = sum.n;
+            int d = sum.d;
+            n = n + random.nextInt(7) - 3;
+            if (n > 0)set.add(simplify(new Fraction(n, d)));
+        }
+        ArrayList<Fraction> list = new ArrayList(set);
+        Fraction a1 = list.get(random.nextInt(4));
+        set.remove(a1);
+        list = new ArrayList(set);
+        Fraction a2 = list.get(random.nextInt(3));
+        set.remove(a2);
+        list = new ArrayList(set);
+        Fraction a3 = list.get(random.nextInt(2));
+        set.remove(a3);
+        list = new ArrayList(set);
+        Fraction a4 = list.get(0);
+        if (sum.equals(a1))rightAnswer = 1;
+        if (sum.equals(a2))rightAnswer = 2;
+        if (sum.equals(a3))rightAnswer = 3;
+        if (sum.equals(a4))rightAnswer = 4;
+
+        String questionString = num1 + " + " + num2 + " = ?";
+        question.setText(questionString);
+        answer1.setText(a1.toString());
+        answer2.setText(a2.toString());
+        answer3.setText(a3.toString());
+        answer4.setText(a4.toString());
+    }
+
 
     private class ButtonListener implements ActionListener {
 
@@ -286,6 +336,12 @@ public class QuestionPanel extends JPanel {
                     return;
                 }
                 if (qType == QuestionType.MULTIPLICATION){
+                    qType = QuestionType.FRACTION;
+                    function.setText("a/b");
+                    restart();
+                    return;
+                }
+                if (qType == QuestionType.FRACTION){
                     qType = QuestionType.ADDITION;
                     function.setText("+/-");
                     restart();

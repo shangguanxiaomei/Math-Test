@@ -10,9 +10,13 @@ public class CST {
     public static final int MULTIPLE_GOAL = 60;
     public static final int ADD_PENALTY = 2;
     public static final int MULTIPLE_PENALTY = 5;
+    public static final int FRACTION_PENALTY = 2;
+    public static final int FRACTION_LIMIT = 24;
+    public static final boolean PROPER_FRACTION = true;
 
     public static final int TIMER_PERIOD = 1000;
-    public static final int QUESTION_FONT_SIZE = 280;
+//    public static final int QUESTION_FONT_SIZE = 280;
+    public static final int QUESTION_FONT_SIZE = 220;
     public static final int ANSWER_FONT_SIZE = 90;
     public static final int FUNCTION_FONT_SIZE = 50;
 }
